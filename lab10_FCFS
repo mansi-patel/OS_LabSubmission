@@ -1,0 +1,29 @@
+#include<stdio.h>
+
+
+void main()
+{
+  
+  int noP,i,j;
+  j=0;
+    
+  printf("\nEnter the no of processes");
+  scanf("%d",&noP);
+    
+  int burstTime[noP],WaitTime[noP],TurnTime[noP];
+  for(i=0;i<noP;i++)
+  	{
+  		printf("\nEnter burst time for process %d:",i+1);
+  		scanf("%d",&burstTime[i]);
+  	}
+  for(i=0;i<noP;i++)
+  	{
+  		WaitTime[i]=j;
+  		TurnTime[i]=WaitTime[i]+burstTime[i];
+  		j=j+burstTime[i];
+  	}
+  printf("\n Process\t WaitTime TurnAroundTime \n"); 
+  for(i=0;i<noP;i++)
+  printf("%d	  %d	  %d\n",i+1,WaitTime[i],TurnTime[i]);
+  
+}
