@@ -1,0 +1,58 @@
+#include<stdio.h>
+
+void main()
+{
+    //Burst Time is the time taken by process to finish itself
+    //Wait Time is the time for a process to get scheduled i.e. time for a process till the previous process gets completed.
+    //TurnAroundTime= BurstTime+Wait Time
+    int noOfProc,i,k,temp,l;
+    k=0;
+    printf("\nEnter the no of processes:");
+    scanf("%d",&noOfProc);
+    int burstTime[noOfProc],WaitTime[noOfProc],TurnTime[noOfProc],proc[noOfProc],burstTime2[noOfProc];
+    for(i=0;i<noOfProc;i++)
+  	{
+  		printf("\nEnter burst time for process %d:",i+1);
+  		scanf("%d",&burstTime[i]);
+  		burstTime2[i]=burstTime[i];
+  		proc[i]=i+1;
+  	}
+    
+    
+    for (i = 1 ; i <= noOfProc-1 ; i++) {
+        l = i;
+        
+        while ( l > 0 && burstTime[l] < burstTime[l-1]) {
+            temp          = burstTime[l];
+            burstTime[l]   = burstTime[l-1];
+            burstTime[l-1] = temp;
+            
+            l--;
+        }
+    }
+    
+    
+    for(i=0;i<noOfProc;i++)
+    {
+        for(l=0;l<noOfProc;l++)
+        {
+            if(burstTime2[i]==burstTime[l])
+                proc[l]=i+1;
+        }
+    }
+    
+    
+    for(i=0;i<noOfProc;i++)
+  	{
+  		WaitTime[i]=k;
+  		TurnTime[i]=WaitTime[i]+burstTime[i];
+  		k=k+burstTime[i];
+  	}
+    printf("\nProcessNo burstTime WaitTime TurnAroundTime\n");
+    for(i=0;i<noOfProc;i++)
+        printf("%d	   %d	    %d        %d\n",proc[i],burstTime[i],WaitTime[i],TurnTime[i]);
+    
+}
+
+
+
