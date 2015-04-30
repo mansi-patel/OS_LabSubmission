@@ -1,0 +1,110 @@
+#include<stdio.h>
+
+int main()
+{
+    int resource[4];
+    int available[4];
+    resource[0]=10;
+    resource[1]=9;
+    resource[2]=7;
+    resource[3]=12;
+    int n,i,j,process,count=0;
+    printf("Enter number of processes");
+    scanf("%d",&n);
+    int allocation[n][4];
+    int max[n][4];
+    int completed[n];
+    int safeSequence[n];
+    int need[n][4];
+    printf("Enter the allocation matrix");
+    
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            scanf("%d",&allocation[i][j]);
+        }
+    }
+    
+    for(j=0;j<4;j++)
+    {
+            scanf("%d",&available[j]);
+    }
+    
+    printf("Enter the maximum matrix");
+    
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            scanf("%d",&max[i][j]);
+        }
+    }
+    
+    for(i=0;i<n;i++)
+    {
+        for(j=0;j<4;j++)
+        {
+            need[i][j]=max[i][j]-allocation[i][j];
+        }
+    }
+    do{
+        process = -1;
+        
+        for(i = 0; i < n; i++)
+        {
+            if(completed[i] == 0)//if not completed
+            {
+                process = i ;
+                for(j = 0; j < 4; j++)
+                {
+                    if(resource[j] < need[i][j])
+                    {
+                        process = -1;
+                        break;
+                    }
+                }
+            }
+            if(process != -1)
+                break;
+        }
+        
+        if(process!=-1)
+        {
+            printf("\nProcess %d runs to completion!", process + 1);
+            safeSequence[count] = process + 1;
+            count++;
+            for(j = 0; j < 4; j++)
+            {
+                available[j] += allocation[process][j];
+                allocation[process][j] = 0;
+                max[process][j] = 0;
+                completed[process] = 1;
+            }
+
+        }
+    
+    
+    
+    }
+    while(count != n && process != -1);
+
+    
+    
+    if(count == n)
+    {
+        printf("\nThe system is in safe state");
+        printf("\nSequence is: ");
+        for( i = 0; i < n; i++)
+            printf("\n%d ", safeSequence[i]);
+    }
+    else
+        printf("\nThe system is not in safe state");
+
+    
+
+
+
+
+}
+
